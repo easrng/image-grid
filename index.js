@@ -37,7 +37,7 @@ class ImageGrid extends HTMLElement {
         elementCount;
       const spacing = 4;
       let containerWidth = 512;
-      const idealHeight = containerWidth / 3;
+      const idealHeight = containerWidth / 2;
       if (!containerWidth) throw new Error("Invalid container width");
       // calculate aspect ratio of all photos
       let aspect;
