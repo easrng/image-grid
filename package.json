@@ -1,0 +1,29 @@
+{
+  "name": "@easrng/image-grid",
+  "version": "0.0.1",
+  "description": "a zero-dependency image grid web component",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/easrng/image-grid.git"
+  },
+  "keywords": [
+    "image",
+    "images",
+    "photo",
+    "photos",
+    "packing",
+    "gallery",
+    "grid",
+    "layout",
+    "webcomponent",
+    "web-component"
+  ],
+  "author": "easrng",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/easrng/image-grid/issues"
+  },
+  "homepage": "https://github.com/easrng/image-grid#readme",
+  "type": "module"
+}
