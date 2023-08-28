@@ -36,7 +36,7 @@ class ImageGrid extends HTMLElement {
         positions = [],
         elementCount;
       const spacing = 4;
-      const containerWidth = 512;
+      let containerWidth = 512;
       const idealHeight = containerWidth / 3;
       if (!containerWidth) throw new Error("Invalid container width");
       // calculate aspect ratio of all photos
@@ -79,6 +79,7 @@ class ImageGrid extends HTMLElement {
           }
         }
         ySum = idealHeight;
+        containerWidth = xSum;
       } else {
         // (2b) Distribute photos over rows using the aspect ratio as weight
         let partitions = (() => {
@@ -213,7 +214,8 @@ class ImageGrid extends HTMLElement {
         let index = 0;
         let xSum = 0,
           width;
-        for (const partition of partitions) {
+        for (let i = 0; i < partitions.length; i++) {
+          const partition = partitions[i];
           let element_index = index;
           let summedRatios = 0;
           for (let j = 0, k = partition.length; j < k; j++) {
@@ -240,7 +242,7 @@ class ImageGrid extends HTMLElement {
             }
           }
           ySum += height;
-          if (i !== n - 1) {
+          if (i !== partitions.length - 1) {
             ySum += spacing;
           }
         }
