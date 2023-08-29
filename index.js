@@ -34,8 +34,9 @@ class ImageGrid extends HTMLElement {
       let n,
         height,
         positions = [],
+        lines = [],
         elementCount;
-      const spacing = 4;
+      const spacing = 0;
       let containerWidth = 512;
       const idealHeight = containerWidth / 2;
       if (!containerWidth) throw new Error("Invalid container width");
@@ -75,6 +76,10 @@ class ImageGrid extends HTMLElement {
           });
           xSum += width;
           if (i !== n - 1) {
+            lines.push([
+              [xSum, 0],
+              [xSum, idealHeight],
+            ]);
             xSum += spacing;
           }
         }
@@ -239,18 +244,45 @@ class ImageGrid extends HTMLElement {
             xSum += width;
             if (j !== elementCount - 1) {
               xSum += spacing;
+              lines.push([
+                [xSum, ySum],
+                [xSum, ySum + height],
+              ]);
             }
           }
           ySum += height;
           if (i !== partitions.length - 1) {
             ySum += spacing;
+            lines.push([
+              [0, ySum],
+              [containerWidth, ySum],
+            ]);
           }
         }
       }
+      console.log(lines);
       style2.textContent = `:host{aspect-ratio:${containerWidth}/${ySum}}`;
       svg.setAttribute("viewBox", `0 0 ${containerWidth} ${ySum}`);
       svg.textContent = "";
-      svg.append(
+      const linePath = document.createElementNS(svgNS, "path");
+      linePath.setAttribute(
+        "d",
+        lines.map((e) => `M ${e[0].join(",")} L ${e[1].join(",")}`).join(" ")
+      );
+      linePath.setAttribute(
+        "style",
+        "stroke:#000;stroke-width:4px;vector-effect:non-scaling-stroke"
+      );
+      const lineMask = document.createElementNS(svgNS, "mask");
+      const lineRect = document.createElementNS(svgNS, "rect");
+      lineRect.setAttribute(
+        "style",
+        "x:-1%;y:-1%;width:102%;height:102%;fill:#fff"
+      );
+      lineMask.setAttribute("id", "lines");
+      lineMask.append(lineRect, linePath);
+      const imageGroup = document.createElementNS(svgNS, "g");
+      imageGroup.append(
         ...positions.map((pos, i) => {
           const fo = document.createElementNS(svgNS, "foreignObject");
           fo.setAttribute("x", "" + pos.x);
@@ -263,6 +295,8 @@ class ImageGrid extends HTMLElement {
           return fo;
         })
       );
+      imageGroup.setAttribute("mask", "url(#lines)");
+      svg.append(lineMask, imageGroup);
     };
     update();
     new MutationObserver(update).observe(this, {

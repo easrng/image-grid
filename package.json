@@ -1,6 +1,6 @@
 {
   "name": "@easrng/image-grid",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "a zero-dependency image grid web component",
   "main": "index.js",
   "repository": {
