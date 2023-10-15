@@ -260,7 +260,6 @@ class ImageGrid extends HTMLElement {
           }
         }
       }
-      console.log(lines);
       style2.textContent = `:host{aspect-ratio:${containerWidth}/${ySum}}`;
       svg.setAttribute("viewBox", `0 0 ${containerWidth} ${ySum}`);
       svg.textContent = "";
